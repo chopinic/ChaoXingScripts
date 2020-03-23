@@ -10,6 +10,8 @@
 var use_external_network = true;
 //视频是否静音
 var media_muted = true;
+//默认播放速度，最高16倍
+var play_speed = 10;
 //每隔多少毫秒检查一次播放状态
 var check_time = 1000;
 //页面跳转时多少毫秒后继续执行脚本（页面完全加载的时间，设置过小脚本出出错）
@@ -138,11 +140,12 @@ function play_media(){
             return;
         }
         if(player.paused){
-            console.log("检测到视频暂停了，继续播放");
+            console.log("检测到视频暂停了，继续播放，当前速度%f倍速",play_speed);
             //有时第一次替换地址不生效，如果地址不对再次替换
             if(use_external_network && player.src != player.src.replace(internal_server_ip, "")){
                 player.src = player.src.replace(internal_server_ip, "");
             }
+            player.playbackRate=play_speed;
             player.play();
         }
     }, check_time);
